@@ -1,2 +1,5 @@
-John00|john@gmail.com|password#1234|false
-Sally11|sally@outlook.com|Sallylovesb00ks|true
+John|john@hotmail.com|JohnisCool|false|
+Sally|sally@gmail.com|Iloveb00ks|false|
+SpotifyMeow|meowmeow@mreow.com|meowhungrymeowfood|false|
+LibraryOwner|iamalibraryowner@ireadbooks.com|Icanread|false|1|
+Ialsoreadbooks|read@read.com|ilovereading|false|2|
