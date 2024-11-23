@@ -1,6 +1,109 @@
 import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+class ReadFromFile
+{
+    public static List<ArrayList<String>> tokenizeFile(String filePath) 
+    {
+        List<ArrayList<String>> tokenizedLines = new ArrayList<>();
 
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) 
+        {
+            String line;
+            while ((line = br.readLine()) != null) 
+            {
+                ArrayList<String> tokens = new ArrayList<>();
+                String[] splitLine = line.split("\\|"); // Split by '|' delimiter
+                for (String token : splitLine) 
+                {
+                    tokens.add(token);
+                }
+                tokenizedLines.add(tokens);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return tokenizedLines;
+    }
+}
+class WriteToFile
+{
+    public static void writeToFile(String filePath, ArrayList<String> arrayList) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true))) 
+        {
+            for (String element : arrayList) 
+            {
+                writer.write(element + "|");
+            }
+            writer.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
+    }
+}
+class IDCounter {
+    private static final String COUNTER_FILE = "IDCounter.txt";
+
+    public static int getNextID(String category) {
+        List<String> counterList = readCounterFile();
+
+        int index = -1;
+        for (int i = 0; i < counterList.size(); i++) {
+            String[] parts = counterList.get(i).split("\\|");
+            if (parts[0].equals(category)) {
+                index = i;
+                break;
+            }
+        }
+
+        int newID;
+        if (index == -1) {
+            // Category not found, add a new entry
+            newID = 1;
+            counterList.add(category + "|1");
+        } else {
+            // Increment the existing ID for the category
+            String[] parts = counterList.get(index).split("\\|");
+            newID = Integer.parseInt(parts[1]) + 1;
+            counterList.set(index, category + "|" + newID);
+        }
+
+        writeCounterFile(counterList);
+        return newID;
+    }
+
+    private static List<String> readCounterFile() {
+        List<String> counterList = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(COUNTER_FILE))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                counterList.add(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return counterList;
+    }
+
+    private static void writeCounterFile(List<String> counterList) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(COUNTER_FILE))) {
+            for (String line : counterList) {
+                writer.write(line);
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
 class Library
 {
     //attributes
@@ -29,26 +132,58 @@ class Book
 class User
 {
     //attributes
-
+    private String userName;
+    private String userEmail;
+    private String userPassword;
+    private boolean libraryOwnerTF;
+    private ArrayList<String> userArrayList;
     //getters
-
+    public ArrayList<String> getUserArrayList() 
+    {
+        return userArrayList;
+    }
     //setters
 
     //constructors
-
+    public User() 
+    {
+        // Default constructor
+    }
+    public User(String userName, String userEmail, String userPassword, boolean libraryOwnerTF) 
+    {
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.libraryOwnerTF = libraryOwnerTF;
+        this.userArrayList = new ArrayList<>();
+    }
     //methods
+    public void addUserToArrayList(String item) {
+        userArrayList.add(item);
+    }
 }
  class LibraryOwner extends User 
 {
-    //attributes
+    private int libraryID;
 
-    //getters
+    // Constructor
+    public LibraryOwner(String userName, String userEmail, String userPassword, boolean libraryOwnerTF, int libraryID) 
+    {
+        super(userName, userEmail, userPassword, libraryOwnerTF);
+        this.libraryID = libraryID;
+    }
 
-    //setters
+    // Getter for libraryID
+    public int getLibraryID() 
+    {
+        return libraryID;
+    }
 
-    //constructors
-
-    //methods
+    // Setter for libraryID (optional, depending on your needs)
+    public void setLibraryID(int libraryID) 
+    {
+        this.libraryID = libraryID;
+    }
 
 }
 class Request
@@ -64,8 +199,8 @@ class Request
     //methods
 
 }
-     class ScreenManager
-     {
+class ScreenManager
+{
 
         private Scanner scanner;
         private User currentUser;
@@ -111,6 +246,7 @@ class Request
             System.out.println("Enter password: ");
             String password = scanner.next();
             int choice;
+            boolean libraryOwnerTF;
            //Call method from User class to verify if they enter correct login info
                 //test
                 System.out.println("TEST: 1 to login 2 to invalid account");
@@ -125,12 +261,13 @@ class Request
         }
 
         private void handleCreateAccount() {
+            String filePath ="Users.txt";
             System.out.println("\nEnter username: ");
-            String username = scanner.next();
+            String userName = scanner.next();
             System.out.println("Enter email: ");
-            String email = scanner.next();
+            String userEmail = scanner.next();
             System.out.println("Enter password: ");
-            String password = scanner.next();
+            String userPassword = scanner.next();
 
             System.out.println("Would you like to become an owner?");
             System.out.println("1. Yes");
@@ -149,7 +286,31 @@ class Request
                 scanner.nextLine(); // Consume newline character
                 description = scanner.nextLine();
                 //get method from library class
+
+                //account creation and add to users.txt
+                int nextLibraryID = IDCounter.getNextID("libraryIDCount");
+                LibraryOwner newLibraryOwner = new LibraryOwner(userName, userEmail, userPassword, true, nextLibraryID);
+                newLibraryOwner.addUserToArrayList(userName);
+                newLibraryOwner.addUserToArrayList(userEmail);
+                newLibraryOwner.addUserToArrayList(userPassword);
+                newLibraryOwner.addUserToArrayList("true");
+                newLibraryOwner.addUserToArrayList(String.valueOf(nextLibraryID));
+
                 
+                WriteToFile.writeToFile(filePath, newLibraryOwner.getUserArrayList());
+
+                
+            }
+            else if (choice ==2)
+            {
+                User newUser = new User(userName, userEmail, userPassword, false);
+                newUser.addUserToArrayList(userName);
+                newUser.addUserToArrayList(userEmail);
+                newUser.addUserToArrayList(userPassword);
+                newUser.addUserToArrayList("false");
+
+                
+                WriteToFile.writeToFile(filePath, newUser.getUserArrayList());
             }
 
             // call method that returns true or false if the account was created successfully
@@ -296,7 +457,7 @@ class Request
             }
             
         }
-    }
+}
 
 public class BookNook 
 {
