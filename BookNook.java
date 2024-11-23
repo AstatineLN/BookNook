@@ -63,207 +63,246 @@ class Request
     //methods
 
 }
+     class ScreenManager
+     {
+
+        private Scanner scanner;
+        private User currentUser;
+        private final String CREDENTIALS_FILE = "Users.txt"; 
+
+        public ScreenManager() {
+            scanner = new Scanner(System.in);
+        }
+
+        public void start() {
+            int choice;
+            do 
+            {
+                displayMainMenu();
+                choice = scanner.nextInt();
+                switch (choice) {
+                    case 1:
+                        handleLogin();
+                        break;
+                    case 2:
+                        handleCreateAccount();
+                        break;
+                    case -1:
+                        System.out.println("Exiting application...");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+            } while (choice != -1);
+        }
+
+        private void displayMainMenu() {
+            System.out.println("\nWelcome to Library Management System");
+            System.out.println("1. Login");
+            System.out.println("2. Create Account");
+            System.out.println("-1. Quit");
+            System.out.print("Enter your choice: ");
+        }
+
+        private void handleLogin() {
+            System.out.println("\nEnter username: ");
+            String username = scanner.next();
+            System.out.println("Enter password: ");
+            String password = scanner.next();
+            int choice;
+           //Call method from User class to verify if they enter correct login info
+                //test
+                System.out.println("TEST: 1 to login 2 to invalid account");
+                choice = scanner.nextInt();
+            if (choice == 1) {
+                System.out.println("\nLogin successful!");
+                displayLoggedInMenu();
+            } else {
+                System.out.println("Invalid username or password. Try again.");
+                start(); // Ask to try again or create account
+            }
+        }
+
+        private void handleCreateAccount() {
+            System.out.println("\nEnter username: ");
+            String username = scanner.next();
+            System.out.println("Enter email: ");
+            String email = scanner.next();
+            System.out.println("Enter password: ");
+            String password = scanner.next();
+
+            System.out.println("Would you like to become an owner?");
+            System.out.println("1. Yes");
+            System.out.println("2. No");
+
+            int choice = scanner.nextInt();
+            String libraryName = null;
+            String zipcode = null;
+            String description = null;
+            if (choice == 1) {
+                System.out.println("Enter Library Name: ");
+                libraryName = scanner.next();
+                System.out.println("Enter zipcode of location: ");
+                zipcode = scanner.next();
+                System.out.println("Enter description (location details): ");
+                scanner.nextLine(); // Consume newline character
+                description = scanner.nextLine();
+                //get method from library class
+                
+            }
+
+            // call method that returns true or false if the account was created successfully
+            /*if (success) {
+                System.out.println("Account created successfully!");
+            } else {
+                System.out.println("Failed to create account. Please try again.");
+                handleCreateAccount();
+            }*/
+        }
+
+        private void displayLoggedInMenu() {
+                int choice;
+                //call method from user that verifies if the user is owner and if else for testing
+                System.out.println("TEST:1.Owner");//TEST
+                System.out.println("TEST:2.basic");//TEST
+                choice = scanner.nextInt();
+                if (choice==1) 
+                {
+                    displayOwnerMenu();
+                } 
+                else if(choice ==2)
+                {
+                    displayBasicMenu();
+                }
+                
+                // Implement logic for each menu option based on user type
+            
+        }
+
+        private void displayOwnerMenu() 
+        {
+            int choice;
+            // Implement menu options for owners (Search, Request, Location management etc.)
+            System.out.println("\nOwner Menu");
+            System.out.println("1. Search Libraries");
+            System.out.println("2. Search For Book");
+            System.out.println("3. Make Request");
+            System.out.println("4. View Requests");
+            System.out.println("5. I'm at a location"); // Functionality for owner to update location
+            System.out.println("6. Fulfill Request");
+            System.out.println("7. Edit Location");
+            System.out.println("8. Delete Location");
+            System.out.println("-1. Logout");
+            System.out.print("Enter your choice: ");
+            
+            choice = scanner.nextInt();
+            
+            
+            switch(choice)
+            {
+                case -1:
+                    System.out.println("You are now logging out-Successful");
+                    break;
+                case 1:
+                    System.out.println("1. Search Libraries-Successful");
+                    displayOwnerMenu();
+                    break;
+                case 2:
+                    System.out.println("2. Search For Book-Successful");
+                    displayOwnerMenu();
+                    break;
+                case 3:
+                    System.out.println("3. Make Request-Successful");
+                    displayOwnerMenu();
+                    break;  
+                case 4:
+                    System.out.println("4. View Requests-Successful");
+                    displayOwnerMenu();
+                    break;  
+                case 5:
+                    System.out.println("5. I'm at a location-Successful"); 
+                    displayOwnerMenu();
+                    break;
+                case 6:
+                    System.out.println("6. Fulfill Request-Successful");
+                    displayOwnerMenu();
+                    break;
+                case 7:
+                    System.out.println("7. Edit Location-Successful");
+                    displayOwnerMenu();
+                    break;
+                case 8:
+                    System.out.println("8. Delete Location-Successful");
+                    displayOwnerMenu();
+                    break;
+                default:
+                    System.out.println("Invalid input please try again");
+                    displayOwnerMenu();
+
+                }
+            
+
+        }
+
+        private void displayBasicMenu() 
+        {
+            // Implement menu options for basic users (Search, Request, View requests etc.)
+            System.out.println("\nBasic Menu");
+            System.out.println("1. Search Libraries");
+            System.out.println("2. Search For Book");
+            System.out.println("3. Make Request");
+            System.out.println("4. View Requests");
+            System.out.println("5. I'm at a location"); 
+            System.out.println("6. Fulfill Request");
+            System.out.println("-1. Logout");
+            System.out.print("Enter your choice: ");
+            int choice;
+            choice = scanner.nextInt();
+
+            switch(choice)
+            {
+                case -1:
+                    System.out.println("You are now logging out-Successful");
+                    break;
+                case 1:
+                    System.out.println("1. Search Libraries-Successful");
+                    displayBasicMenu();
+                    break;
+                case 2:
+                    System.out.println("2. Search For Book-Successful");
+                    displayBasicMenu();
+                    break;
+                case 3:
+                    System.out.println("3. Make Request-Successful");
+                    displayBasicMenu();
+                    break;  
+                case 4:
+                    System.out.println("4. View Requests");
+                    displayBasicMenu();
+                    break;  
+                case 5:
+                    System.out.println("5. I'm at a location"); 
+                    displayBasicMenu();
+                    break;
+                case 6:
+                    System.out.println("6. Fulfill Request");
+                    displayBasicMenu();
+                    break;
+                default:
+                    System.out.println("Invalid input please try again");
+                    displayOwnerMenu();
+
+            }
+            
+        }
+    }
 
 public class BookNook 
 {
     public static void main(String args[])
     {
-        Scanner scanner = new Scanner(System.in);
-        int screen=0;
-        int selection;// to save value user enters and to be used for if else
-        int login;//to break from login/account creation
-        boolean libraryOwner;
-        while(selection!=-1)//breaks from whole program
-        {
-            while(login!=-2)//breaks from login/account creation
-            {
-                //first option screen
-                do
-                {
-                    System.out.println("Welcome to booknook a system to manage little libraries, please make a selection");
-                    System.out.println("1.I already have an account");
-                    System.out.println("2.I need to create an account");
-                    System.out.println("Enter -1 if you no longer wish to login or create an account");
-                    selection = scanner.nextInt();
-                    switch(selection)
-                    {
-                        case 1:
-                            screen = 2;
-                            break;
-                        case 2:
-                            screen = 3;
-                            break;
-                        case -1:
-                            System.out.println("Thank you for visiting BookNook");
-                            break;
-                        default:
-                        System.out.println("Please enter a valid option");
-                    }
-                }while(selection!=1||selection!=2||selection!= -1);
-                //screen to login (2)
-                if(screen == 2)
-                {
-                    do
-                    {
-                        System.out.println("Enter email:");
-                        String email = scanner.nextLine();
-                        System.out.println("Enter Password");
-                        String password = scanner.nextLine();
-                        
-                        //Call method loginUser()
-                        /*
-                        User user = new User();
-                        boolean verify = user.loginUser(email, password);*/
-                        //valid account found
-                        boolean verify = true;
-                        if(verify == true)
-                        {
-                            //call method basicOrOwner
-                            //int owner = user.basicOrOwner(email, password);
-                            //verify is basic(0) or owner account(1)
-                            int owner = 0;
-                            switch(owner)
-                            {
-                                case 0:
-                                    screen = 4;
-                                    break;
-                                case 1:
-                                    screen = 5;
-                                    break;
-
-                            }
-                        }
-                        else if(verify == false)
-                        {
-                            System.out.println("Wrong credentials:Press 1 to try again, 2 to create account or -1 to quit");
-                            selection = scanner.nextInt();
-                            switch(selection)
-                            {
-                                case 1:
-                                    break;
-                                case 2:
-                                    screen = 3;
-                                    break;
-                                case -1:
-                                    System.out.println("Thank you for using BookNook");
-                                    break;
-                                default:
-                                    System.out.println("Please enter a valid option");
-                            }
-                        }
-                    }while(selection !=-1||screen !=3||screen!=4||screen!=5);
-                    
-
-                }
-                //option screen to make account(3)
-                else if(screen == 3)
-                {
-                    //call to initialize library class
-                    do
-                    {
-                        System.out.println("Account creation\n");
-                        System.out.println("Enter Username");
-                        String username = scanner.nextLine();
-
-                        System.out.println("Hello, "+ username + " Enter email");
-                        String email = scanner.nextLine();
-
-                        System.out.println("Enter your password");
-                        String password = scanner.nextLine();
-
-                        System.out.println("Would you like to become a little library owner, enter 1 for yes and 0 for no");
-                        selection = scanner.nextInt();
-                        do
-                        {
-                            switch(selection)
-                            {
-                                case 0:
-                                    libraryOwner = false;
-                                    break;
-                                case 1:
-                                    do//library creation
-                                    {
-                                        
-                                        System.out.println("Enter Library name");
-                                        String libraryName = scanner.nextLine();
-
-                                        System.out.println("Enter zipcode of the location of your little library");
-                                        int libraryLocation = scanner.nextInt();
-
-                                        System.out.println("Enter the description for "+libraryName);
-                                        String libraryDescription = scanner.nextLine();
-
-                                        //method call to create library
-
-                                        System.out.println("Your new library details");
-                                        System.out.println("Library name: "+libraryName);
-                                        System.out.println("library location: "+libraryLocation);
-                                        System.out.println("Library description: "+ libraryDescription);
-
-                                        System.out.println("Enter 1 if this details are right, 2 if they are wrong, or -1 if you want to quit BookNook");
-                                        selection = scanner.nextInt();
-                                        do//get right selection
-                                        {
-                                            switch(selection)
-                                            {
-                                                case 1:
-                                                    libraryOwner = true;
-                                                    
-                                                    break;
-                                                case 2:
-                                                    libraryOwner = false;
-                                                    break;
-                                                case -1:
-                                                    System.out.println("You are now exiting BookNook");
-                                                    break;
-                                                default:
-                                                    System.out.println("Invalid input, please try again");
-                                                
-
-                                            }
-                                        }while(selection!=1||selection!=2||selection!=-1);
-
-                                    }while(selection!=1||selection!=-1);
-                                    break;
-                                default:
-                                    System.out.println("Invalid input");
-                                    
-                            }
-                        }while(selection!=0||selection!=1);
-                        
-
-                        System.out.println(username+", your username is: "+username+" and password is: "+password+"and library owner:"+ libraryOwner);
-                        System.out.println("Enter 1 if this is right, 2 if you wish to change it and -1 to quit BookNook" );
-                        selection = scanner.nextInt();
-                        if(selection ==1&&libraryOwner==true)
-                        {
-                            //method call to create library
-                            screen = 5;
-                        }
-                        else if(selection == 1&&libraryOwner ==false)
-                        {
-                            screen =4;
-                        }
-                    }while(selection !=-1|| selection!=1);
-                }
-            }
-
-            //option screen for basic user(4)
-            if(screen == 4)
-            {/*
-                do
-                {
-                    
-                }while();*/
-            }
-            //option screen for library owner(5)
-            else if(screen == 5)
-            {
-                /*do
-                {
-
-                }while(1);*/
-            }
-        }
+        ScreenManager screenManager = new ScreenManager();
+        screenManager.start();
     }
 }
+
