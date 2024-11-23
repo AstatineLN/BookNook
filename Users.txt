@@ -1,0 +1,2 @@
+John00|john@gmail.com|password#1234|false
+Sally11|sally@outlook.com|Sallylovesb00ks|true
