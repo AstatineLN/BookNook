@@ -199,6 +199,101 @@ class Request
     //methods
 
 }
+class Login {
+	
+	
+	//This method creates a hashmap for the user info and sets the username as the key and the password as the value
+	public static Map<String, String> HashMapForUsers(){
+		Map<String, String> map = new HashMap<String, String>();
+		
+		BufferedReader br = null; 
+		
+		try {
+			File file = new File("Users.txt");
+			
+			br = new BufferedReader(new FileReader(file));
+			
+			String line;
+			//reading from the file line by line
+			while ((line = br.readLine()) != null) {
+				String[] parts = line.split("\\|");
+				//parts[0] is our convention for where the username is stored. parts[2] is password.
+				String Username = parts[0].trim();
+				String Password = parts[2].trim();
+				if (!Username.equals("") && !Password.equals("")) {
+					map.put(Username, Password);
+				}
+				
+			}
+			
+			br.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	
+	public static Map<String,String> HashMapForOwnerStatus(){
+		Map<String, String> OwnerMap = new HashMap<String, String>();
+		BufferedReader br = null; 
+		
+		try {
+			File file = new File("Users.txt");
+			
+			br = new BufferedReader(new FileReader(file));
+			
+			String line;
+			//reading from the file line by line
+			while ((line = br.readLine()) != null) {
+				String[] parts = line.split("\\|");
+				//parts[0] is our convention for where the username is stored. parts[3] is owner status.
+				String Username = parts[0].trim();
+				String ownerStatus = parts[3].trim();
+
+				if (!Username.equals("") && !ownerStatus.equals("")) {
+					OwnerMap.put(Username, ownerStatus);
+				}
+			}
+			
+			br.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return OwnerMap;
+	}
+	
+
+	
+	
+
+	public static Boolean loginVerification(String Username, String Password) {
+			Map<String, String> userMap = HashMapForUsers();
+			
+			for(Map.Entry<String,String> entry: userMap.entrySet()) {
+				//System.out.println(entry.getKey() + " " + entry.getValue());
+				if (entry.getKey().equals(Username) && entry.getValue().equals(Password)) {
+					return true;
+				}
+			}
+			return false;
+	}
+	
+	public static Boolean ownerVerification(String Username) {
+		Map<String, String> ownerMap = HashMapForOwnerStatus();
+		
+		for(Map.Entry<String,String> entry: ownerMap.entrySet()) {
+			if (entry.getKey().equals(Username) && entry.getValue().equals("true")) {
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
+}
+
 class ScreenManager {
     private Scanner scanner;
     private User currentUser;
