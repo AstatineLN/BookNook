@@ -107,15 +107,38 @@ class IDCounter {
 class Library
 {
     //attributes
-    
+    private int libraryID;
+    private String libraryName;
+    private int libraryLocation;
+    private String libraryDescription;
+    private ArrayList<String> library;
+
 
     //getters
-
+    public ArrayList<String> library() 
+    {
+        return library;
+    }
     //setters
 
     //constructors(not sure if needed)
-
+    public Library() 
+    {
+        // Default constructor
+    }
+    public Library(int libraryID, String libraryName, int libraryLocation, String libraryDescription) 
+    {
+        this.libraryID = libraryID;
+        this.libraryName = libraryName;
+        this.libraryLocation = libraryLocation;
+        this.libraryDescription = libraryDescription;
+        this.library = new ArrayList<>();
+    }
     //methods
+    public void addLibraryToArrayList(String item) 
+    {
+        library.add(item);
+    }
 }
 class Book
 {
