@@ -119,17 +119,46 @@ class Library
 
     //methods
 }
-class Book
-{
-    //attributes
+class Book {
+	//attributes
+	public String bookTitle;
+	private Scanner scan;
+	
+	//method to search for a book by title
+	public Boolean bookSearch(){
+		//creating book object and assigning bookTitle to the book
+		Book book = new Book();
+		scan = new Scanner(System.in);
+		System.out.println("What book would you like to search for?");
+		book.bookTitle = scan.nextLine();
+		
+		BufferedReader br; 
+		try {
+			File file = new File("0.txt");
+			br = new BufferedReader(new FileReader(file));
+			String line;
+			//reading from the file line by line
+			while ((line = br.readLine()) != null) {
+				String[] parts = line.split("\\|");
+				//parts[1] is where the book title is stored
+				String Title = parts[1].trim();
+				//this checks if the requested book is found in the library (is not case sensitive)
+				if (Title.toLowerCase().equals(book.bookTitle.toLowerCase())) {
+					br.close();
+					return true;
+				}
 
-    //getters
+			}
+			br.close();
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 
-    //setters
-
-    //constructors
-
-    //methods
 }
 class User
 {
