@@ -563,11 +563,17 @@ class ScreenManager {
                 displayBasicMenu();
                 break;
             case 2:
-                System.out.println("2. Search For Book-Successful");
-                Book.listBooks("0.txt");
-   
-                displayBasicMenu();
-                break;
+            	Book bookObj = new Book();
+            	if(bookObj.bookSearch() == true) {
+            		System.out.println("The book is currently available.");
+                    displayBasicMenu();
+                    break;
+            	}
+            	else {
+            		System.out.println("The book is unavailable.");
+                    displayBasicMenu();
+                    break;
+            	}
             case 3:
                 System.out.println("3. Make Request-Successful");
                 displayBasicMenu();
