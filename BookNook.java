@@ -502,9 +502,17 @@ class ScreenManager {
                 displayOwnerMenu();
                 break;
             case 2:
-                System.out.println("2. Search For Book-Successful");
-                displayOwnerMenu();
-                break;
+            	Book bookObj = new Book();
+            	if(bookObj.bookSearch() == true) {
+            		System.out.println("The book is currently available.");
+                    displayOwnerMenu();
+                    break;
+            	}
+            	else {
+            		System.out.println("The book is unavailable.");
+                    displayOwnerMenu();
+                    break;
+            	}
             case 3:
                 System.out.println("3. Make Request-Successful");
                 displayOwnerMenu();
