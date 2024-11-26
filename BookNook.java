@@ -419,30 +419,33 @@ class ScreenManager {
     }
 
     private void handleCreateAccount() {
+        Scanner ScaNner = new Scanner(System.in);
         String filePath ="Users.txt";
         System.out.println("\nEnter username: ");
-        String userName = scanner.next();
+        String userName = ScaNner.next();
         System.out.println("Enter email: ");
-        String userEmail = scanner.next();
+        String userEmail = ScaNner.next();
         System.out.println("Enter password: ");
-        String userPassword = scanner.next();
+        String userPassword = ScaNner.next();
 
         System.out.println("Would you like to become an owner?");
         System.out.println("1. Yes");
         System.out.println("2. No");
 
-        int choice = scanner.nextInt();
+        int choice = ScaNner.nextInt();
         String libraryName = null;
         int libraryLocation;
         String libraryDescription = null;
         if (choice == 1) {
             System.out.println("Enter Library Name: ");
-            libraryName = scanner.next();
-            System.out.println("Enter zipcode of location: ");
+            libraryName = ScaNner.next();
+            
+            System.out.println("ScaNner zipcode of location: ");
             libraryLocation = scanner.nextInt();
+            ScaNner.nextLine();
             System.out.println("Enter description (location details): ");
             scanner.nextLine(); // Consume newline character
-            libraryDescription = scanner.nextLine();
+            libraryDescription = ScaNner.nextLine();
             //get method from library class
 
             //account creation and add to users.txt
