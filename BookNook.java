@@ -122,7 +122,18 @@ class Library
 class Book {
 	//attributes
 	public String bookTitle;
+	private String bookAuthor;
 	private Scanner scan;
+	private ArrayList<String> bookArray = new ArrayList<>();
+	
+	public void bookSetter(String title, String genre, String author) {
+		this.bookTitle = title;
+		this.bookAuthor = author;
+	}
+
+	public void AddBookToArrayList(String item) {
+		bookArray.add(item);
+	}
 	
 	//method to search for a book by title
 	public Boolean bookSearch(){
@@ -156,6 +167,40 @@ class Book {
 			e.printStackTrace();
 		}
 		return false;
+	}
+		public void bookAdd() {
+		
+			int ID = 0;
+			//This is to simply find out the ID of the book we are going to add 
+			try {
+				FileReader fr = new FileReader("0.txt");
+				BufferedReader br = new BufferedReader(fr);
+				//String line;
+				while (br.readLine() != null) {
+					ID++;
+				}
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			String stringID = Integer.toString(ID);
+			//This is getting the name and author of the book
+			scan = new Scanner(System.in);
+			System.out.println("What is the title of the book you would like to add?");
+			String name = scan.nextLine();
+			System.out.println("Who is the author?");
+			String owner = scan.nextLine();
+			//creating a Book object
+			Book newBook = new Book();
+			//Adding to an Arraylist
+			newBook.AddBookToArrayList(stringID);
+			newBook.AddBookToArrayList(name);
+			newBook.AddBookToArrayList(owner);
+			//writing to the book file
+			WriteToFile.writeToFile("0.txt", newBook.bookArray);
+		
+		
 	}
 	
 
