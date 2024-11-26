@@ -122,11 +122,40 @@ class Library
     {
         return library;
     }
+    public int getLibraryID()
+    {
+        return libraryID;
+    }
+    public String getLibraryName()
+    {
+        return libraryName;
+    }
+    public int getLibraryLocation()
+    {
+        return libraryLocation;
+    }
+    public String getLibraryDescription()
+    {
+        return libraryDescription;
+    }
     //setters
     public void setLibraryID(int libraryID) 
     {
         this.libraryID = libraryID;
     }//Added Here
+    public void setLibraryLocation(int libraryLocation)
+    {
+        this.libraryLocation = libraryLocation;
+    }
+    public void setLibraryName(String libraryName)
+    {
+        this.libraryName = libraryName;
+    }
+    public void setLibraryDescription(String libraryDescription)
+    {
+        this.libraryDescription = libraryDescription;
+    }
+
     //constructors(not sure if needed)
     public Library() 
     {
@@ -145,6 +174,27 @@ class Library
     {
         library.add(item);
     }
+    //search by zipcode
+    public List<Library> searchLibrariesByZipCodeRange(int zipCode, int range) {
+        List<Library> matchingLibraries = new ArrayList<>();
+        List<ArrayList<String>> librariesData = ReadFromFile.tokenizeFile("Libraries.txt"); // Assuming libraries are stored in Libraries.txt
+
+        for (ArrayList<String> libraryData : librariesData) {
+            int libraryZipCode = Integer.parseInt(libraryData.get(2)); // Assuming zip code is at index 2
+            if (Math.abs(libraryZipCode - zipCode) <= range) {
+                Library library = new Library();
+                library.setLibraryID(Integer.parseInt(libraryData.get(0)));
+                library.setLibraryName(libraryData.get(1));
+                library.setLibraryLocation(libraryZipCode);
+                library.setLibraryDescription(libraryData.get(3));
+                matchingLibraries.add(library);
+            }
+        }
+
+        return matchingLibraries;
+    }
+
+
 }
 class Book {
 	//attributes
@@ -540,6 +590,24 @@ class ScreenManager {
                 break;
             case 1:
                 System.out.println("1. Search Libraries-Successful");
+                System.out.println("Enter your zipcode");
+                int zipcode = scanner.nextInt();
+                int range = 5;
+                Library library = new Library();
+                List<Library> matchingLibraries = library.searchLibrariesByZipCodeRange(zipcode, range);
+
+                if (matchingLibraries.isEmpty()) {
+                    System.out.println("No libraries found within the specified range.");
+                } else {
+                    System.out.println("Libraries within the range:");
+                    for (Library lib : matchingLibraries) {
+                        System.out.println("Library ID: " + lib.getLibraryID());
+                        System.out.println("Library Name: " + lib.getLibraryName());
+                        System.out.println("Library Location: " + lib.getLibraryLocation());
+                        System.out.println("Library Description: " + lib.getLibraryDescription());
+                        System.out.println();
+                    }
+                }
                 displayOwnerMenu();
                 break;
             case 2:
@@ -609,6 +677,25 @@ class ScreenManager {
                 break;
             case 1:
                 System.out.println("1. Search Libraries-Successful");
+                System.out.println("Enter your zipcode");
+                int zipcode = scanner.nextInt();
+                int range = 5;
+                Library library = new Library();
+                List<Library> matchingLibraries = library.searchLibrariesByZipCodeRange(zipcode, range);
+
+                if (matchingLibraries.isEmpty()) {
+                    System.out.println("No libraries found within the specified range.");
+                } else {
+                    System.out.println("Libraries within the range:");
+                    for (Library lib : matchingLibraries) {
+                        System.out.println("Library ID: " + lib.getLibraryID());
+                        System.out.println("Library Name: " + lib.getLibraryName());
+                        System.out.println("Library Location: " + lib.getLibraryLocation());
+                        System.out.println("Library Description: " + lib.getLibraryDescription());
+                        System.out.println();
+                    }
+                }
+
                 displayBasicMenu();
                 break;
             case 2:
