@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -117,17 +118,20 @@ class Library
 
 
     //getters
-    public ArrayList<String> library() 
+    public ArrayList<String> getLibraryArrayList() 
     {
         return library;
     }
     //setters
-
+    public void setLibraryID(int libraryID) 
+    {
+        this.libraryID = libraryID;
+    }//Added Here
     //constructors(not sure if needed)
-    public Library() 
+    /*public Library() 
     {
         // Default constructor
-    }
+    }*/
     public Library(int libraryID, String libraryName, int libraryLocation, String libraryDescription) 
     {
         this.libraryID = libraryID;
@@ -209,6 +213,8 @@ class User
     {
         this.libraryID = libraryID;
     }
+    //methods
+    
 
 }
 class Request
@@ -400,20 +406,21 @@ class ScreenManager {
 
         int choice = scanner.nextInt();
         String libraryName = null;
-        String zipcode = null;
-        String description = null;
+        int libraryLocation;
+        String libraryDescription = null;
         if (choice == 1) {
             System.out.println("Enter Library Name: ");
             libraryName = scanner.next();
             System.out.println("Enter zipcode of location: ");
-            zipcode = scanner.next();
+            libraryLocation = scanner.nextInt();
             System.out.println("Enter description (location details): ");
             scanner.nextLine(); // Consume newline character
-            description = scanner.nextLine();
+            libraryDescription = scanner.nextLine();
             //get method from library class
 
             //account creation and add to users.txt
             int nextLibraryID = IDCounter.getNextID("libraryIDCount");
+            
             LibraryOwner newLibraryOwner = new LibraryOwner(userName, userEmail, userPassword, true, nextLibraryID);
             newLibraryOwner.addUserToArrayList(userName);
             newLibraryOwner.addUserToArrayList(userEmail);
@@ -421,8 +428,23 @@ class ScreenManager {
             newLibraryOwner.addUserToArrayList("true");
             newLibraryOwner.addUserToArrayList(String.valueOf(nextLibraryID));
 
+
             
             WriteToFile.writeToFile(filePath, newLibraryOwner.getUserArrayList());
+
+            //Add created library to Library.txt
+            //Access Arraylist
+            /*List<ArrayList<String>> tokenizedLines = ReadFromFile.tokenizeFile(filePath);
+            ArrayList<String> secondLine = tokenizedLines.get(1);
+            //Access element from arrayList
+            String thirdElement = secondLine.get(2);*/
+                //public Library(int libraryID, String libraryName, int libraryLocation, String libraryDescription) 
+            Library newLibraryData = new Library(nextLibraryID, libraryName,libraryLocation, libraryDescription);
+            newLibraryData.addLibraryToArrayList(String.valueOf(nextLibraryID));
+            newLibraryData.addLibraryToArrayList(libraryName);
+            newLibraryData.addLibraryToArrayList(String.valueOf(libraryLocation));
+            newLibraryData.addLibraryToArrayList(libraryDescription);
+            WriteToFile.writeToFile("Library.txt", newLibraryData.getLibraryArrayList());
 
             
         }
@@ -558,7 +580,7 @@ class ScreenManager {
                 break;
             case 2:
                 System.out.println("2. Search For Book-Successful");
-                Book.listBooks("0.txt");
+                //Book.listBooks("0.txt");
    
                 displayBasicMenu();
                 break;
