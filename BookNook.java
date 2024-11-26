@@ -122,11 +122,40 @@ class Library
     {
         return library;
     }
+    public int getLibraryID()
+    {
+        return libraryID;
+    }
+    public String getLibraryName()
+    {
+        return libraryName;
+    }
+    public int getLibraryLocation()
+    {
+        return libraryLocation;
+    }
+    public String getLibraryDescription()
+    {
+        return libraryDescription;
+    }
     //setters
     public void setLibraryID(int libraryID) 
     {
         this.libraryID = libraryID;
     }//Added Here
+    public void setLibraryLocation(int libraryLocation)
+    {
+        this.libraryLocation = libraryLocation;
+    }
+    public void setLibraryName(String libraryName)
+    {
+        this.libraryName = libraryName;
+    }
+    public void setLibraryDescription(String libraryDescription)
+    {
+        this.libraryDescription = libraryDescription;
+    }
+
     //constructors(not sure if needed)
     public Library() 
     {
@@ -145,11 +174,43 @@ class Library
     {
         library.add(item);
     }
+    //search by zipcode
+    public List<Library> searchLibrariesByZipCodeRange(int zipCode, int range) {
+        List<Library> matchingLibraries = new ArrayList<>();
+        List<ArrayList<String>> librariesData = ReadFromFile.tokenizeFile("Libraries.txt"); // Assuming libraries are stored in Libraries.txt
+
+        for (ArrayList<String> libraryData : librariesData) {
+            int libraryZipCode = Integer.parseInt(libraryData.get(2)); // Assuming zip code is at index 2
+            if (Math.abs(libraryZipCode - zipCode) <= range) {
+                Library library = new Library();
+                library.setLibraryID(Integer.parseInt(libraryData.get(0)));
+                library.setLibraryName(libraryData.get(1));
+                library.setLibraryLocation(libraryZipCode);
+                library.setLibraryDescription(libraryData.get(3));
+                matchingLibraries.add(library);
+            }
+        }
+
+        return matchingLibraries;
+    }
+
+
 }
 class Book {
 	//attributes
 	public String bookTitle;
+	private String bookAuthor;
 	private Scanner scan;
+	private ArrayList<String> bookArray = new ArrayList<>();
+	
+	public void bookSetter(String title, String genre, String author) {
+		this.bookTitle = title;
+		this.bookAuthor = author;
+	}
+
+	public void AddBookToArrayList(String item) {
+		bookArray.add(item);
+	}
 	
 	//method to search for a book by title
 	public Boolean bookSearch(){
@@ -183,6 +244,40 @@ class Book {
 			e.printStackTrace();
 		}
 		return false;
+	}
+		public void bookAdd() {
+		
+			int ID = 0;
+			//This is to simply find out the ID of the book we are going to add 
+			try {
+				FileReader fr = new FileReader("0.txt");
+				BufferedReader br = new BufferedReader(fr);
+				//String line;
+				while (br.readLine() != null) {
+					ID++;
+				}
+			}
+			catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			String stringID = Integer.toString(ID);
+			//This is getting the name and author of the book
+			scan = new Scanner(System.in);
+			System.out.println("What is the title of the book you would like to add?");
+			String name = scan.nextLine();
+			System.out.println("Who is the author?");
+			String owner = scan.nextLine();
+			//creating a Book object
+			Book newBook = new Book();
+			//Adding to an Arraylist
+			newBook.AddBookToArrayList(stringID);
+			newBook.AddBookToArrayList(name);
+			newBook.AddBookToArrayList(owner);
+			//writing to the book file
+			WriteToFile.writeToFile("0.txt", newBook.bookArray);
+		
+		
 	}
 	
 
@@ -534,7 +629,7 @@ class ScreenManager {
         System.out.print("Enter your choice: ");
         
         choice = scanner.nextInt();
-        
+        Book bookObj = new Book();
         
         switch(choice)
         {
@@ -543,10 +638,27 @@ class ScreenManager {
                 break;
             case 1:
                 System.out.println("1. Search Libraries-Successful");
+                System.out.println("Enter your zipcode");
+                int zipcode = scanner.nextInt();
+                int range = 5;
+                Library library = new Library();
+                List<Library> matchingLibraries = library.searchLibrariesByZipCodeRange(zipcode, range);
+
+                if (matchingLibraries.isEmpty()) {
+                    System.out.println("No libraries found within the specified range.");
+                } else {
+                    System.out.println("Libraries within the range:");
+                    for (Library lib : matchingLibraries) {
+                        System.out.println("Library ID: " + lib.getLibraryID());
+                        System.out.println("Library Name: " + lib.getLibraryName());
+                        System.out.println("Library Location: " + lib.getLibraryLocation());
+                        System.out.println("Library Description: " + lib.getLibraryDescription());
+                        System.out.println();
+                    }
+                }
                 displayOwnerMenu();
                 break;
             case 2:
-            	Book bookObj = new Book();
             	if(bookObj.bookSearch() == true) {
             		System.out.println("The book is currently available.");
                     displayOwnerMenu();
@@ -566,7 +678,7 @@ class ScreenManager {
                 displayOwnerMenu();
                 break;  
             case 5:
-                System.out.println("5. I'm at a location-Successful"); 
+				bookObj.bookAdd();
                 displayOwnerMenu();
                 break;
             case 6:
@@ -604,7 +716,7 @@ class ScreenManager {
         System.out.print("Enter your choice: ");
         int choice;
         choice = scanner.nextInt();
-
+		Book bookObj = new Book();
         switch(choice)
         {
             case -1:
@@ -612,10 +724,28 @@ class ScreenManager {
                 break;
             case 1:
                 System.out.println("1. Search Libraries-Successful");
+                System.out.println("Enter your zipcode");
+                int zipcode = scanner.nextInt();
+                int range = 5;
+                Library library = new Library();
+                List<Library> matchingLibraries = library.searchLibrariesByZipCodeRange(zipcode, range);
+
+                if (matchingLibraries.isEmpty()) {
+                    System.out.println("No libraries found within the specified range.");
+                } else {
+                    System.out.println("Libraries within the range:");
+                    for (Library lib : matchingLibraries) {
+                        System.out.println("Library ID: " + lib.getLibraryID());
+                        System.out.println("Library Name: " + lib.getLibraryName());
+                        System.out.println("Library Location: " + lib.getLibraryLocation());
+                        System.out.println("Library Description: " + lib.getLibraryDescription());
+                        System.out.println();
+                    }
+                }
+
                 displayBasicMenu();
                 break;
             case 2:
-            	Book bookObj = new Book();
             	if(bookObj.bookSearch() == true) {
             		System.out.println("The book is currently available.");
                     displayBasicMenu();
@@ -636,6 +766,7 @@ class ScreenManager {
                 break;  
             case 5:
                 System.out.println("5. I'm at a location"); 
+				bookObj.bookAdd();
                 displayBasicMenu();
                 break;
             case 6:
