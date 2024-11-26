@@ -109,90 +109,90 @@ class IDCounter {
 }
 class Library
 {
-    //attributes
-    private int libraryID;
-    private String libraryName;
-    private int libraryLocation;
-    private String libraryDescription;
-    private ArrayList<String> library;
+	    //attributes
+	    private int libraryID;
+	    private String libraryName;
+	    private int libraryLocation;
+	    private String libraryDescription;
+	    private ArrayList<String> library;
 
 
-    //getters
-    public ArrayList<String> getLibraryArrayList() 
-    {
-        return library;
-    }
-    public int getLibraryID()
-    {
-        return libraryID;
-    }
-    public String getLibraryName()
-    {
-        return libraryName;
-    }
-    public int getLibraryLocation()
-    {
-        return libraryLocation;
-    }
-    public String getLibraryDescription()
-    {
-        return libraryDescription;
-    }
-    //setters
-    public void setLibraryID(int libraryID) 
-    {
-        this.libraryID = libraryID;
-    }//Added Here
-    public void setLibraryLocation(int libraryLocation)
-    {
-        this.libraryLocation = libraryLocation;
-    }
-    public void setLibraryName(String libraryName)
-    {
-        this.libraryName = libraryName;
-    }
-    public void setLibraryDescription(String libraryDescription)
-    {
-        this.libraryDescription = libraryDescription;
-    }
+	    //getters
+	    public ArrayList<String> getLibraryArrayList() 
+	    {
+	        return library;
+	    }
+	    public int getLibraryID()
+	    {
+	        return libraryID;
+	    }
+	    public String getLibraryName()
+	    {
+	        return libraryName;
+	    }
+	    public int getLibraryLocation()
+	    {
+	        return libraryLocation;
+	    }
+	    public String getLibraryDescription()
+	    {
+	        return libraryDescription;
+	    }
+	    //setters
+	    public void setLibraryID(int libraryID) 
+	    {
+	        this.libraryID = libraryID;
+	    }//Added Here
+	    public void setLibraryLocation(int libraryLocation)
+	    {
+	        this.libraryLocation = libraryLocation;
+	    }
+	    public void setLibraryName(String libraryName)
+	    {
+	        this.libraryName = libraryName;
+	    }
+	    public void setLibraryDescription(String libraryDescription)
+	    {
+	        this.libraryDescription = libraryDescription;
+	    }
 
-    //constructors(not sure if needed)
-    public Library() 
-    {
-        // Default constructor
-    }
-    public Library(int libraryID, String libraryName, int libraryLocation, String libraryDescription) 
-    {
-        this.libraryID = libraryID;
-        this.libraryName = libraryName;
-        this.libraryLocation = libraryLocation;
-        this.libraryDescription = libraryDescription;
-        this.library = new ArrayList<>();
-    }
-    //methods
-    public void addLibraryToArrayList(String item) 
-    {
-        library.add(item);
-    }
-    //search by zipcode
-    public List<Library> searchLibrariesByZipCodeRange(int zipCode, int range) {
-        List<Library> matchingLibraries = new ArrayList<>();
-        List<ArrayList<String>> librariesData = ReadFromFile.tokenizeFile("Libraries.txt"); // Assuming libraries are stored in Libraries.txt
+	    //constructors(not sure if needed)
+	    public Library() 
+	    {
+	        // Default constructor
+	    }
+	    public Library(int libraryID, String libraryName, int libraryLocation, String libraryDescription) 
+	    {
+	        this.libraryID = libraryID;
+	        this.libraryName = libraryName;
+	        this.libraryLocation = libraryLocation;
+	        this.libraryDescription = libraryDescription;
+	        this.library = new ArrayList<>();
+	    }
+	    //methods
+	    public void addLibraryToArrayList(String item) 
+	    {
+	        library.add(item);
+	    }
+	    //search by zipcode
+	    public List<Library> searchLibrariesByZipCodeRange(int zipCode, int range) {
+	        List<Library> matchingLibraries = new ArrayList<>();
+	        List<ArrayList<String>> librariesData = ReadFromFile.tokenizeFile("Libraries.txt"); // Assuming libraries are stored in Libraries.txt
 
-        for (ArrayList<String> libraryData : librariesData) {
-            int libraryZipCode = Integer.parseInt(libraryData.get(2)); // Assuming zip code is at index 2
-            if (Math.abs(libraryZipCode - zipCode) <= range) {
-                Library library = new Library();
-                library.setLibraryID(Integer.parseInt(libraryData.get(0)));
-                library.setLibraryName(libraryData.get(1));
-                library.setLibraryLocation(libraryZipCode);
-                library.setLibraryDescription(libraryData.get(3));
-                matchingLibraries.add(library);
-            }
-        }
+	        for (ArrayList<String> libraryData : librariesData) {
+	            int libraryZipCode = Integer.parseInt(libraryData.get(2)); // Assuming zip code is at index 2
+	            if (Math.abs(libraryZipCode - zipCode) <= range) {
+	                Library library = new Library();
+	                library.setLibraryID(Integer.parseInt(libraryData.get(0)));
+	                library.setLibraryName(libraryData.get(1));
+	                library.setLibraryLocation(libraryZipCode);
+	                library.setLibraryDescription(libraryData.get(3));
+	                matchingLibraries.add(library);
+	            }
+	        }
 
-        return matchingLibraries;
-    }
+	        return matchingLibraries;
+	    }
 
 
 }
@@ -613,18 +613,15 @@ class ScreenManager {
     }
 
     private void displayOwnerMenu() 
-    {
-        int choice;
+       int choice;
         // Implement menu options for owners (Search, Request, Location management etc.)
         System.out.println("\nOwner Menu");
         System.out.println("1. Search Libraries");
         System.out.println("2. Search For Book");
-        System.out.println("3. Make Request");
-        System.out.println("4. View Requests");
-        System.out.println("5. I'm at a location"); // Functionality for owner to update location
-        System.out.println("6. Fulfill Request");
-        System.out.println("7. Edit Location");
-        System.out.println("8. Delete Location");
+        System.out.println("3. List Books");
+        System.out.println("4. I'm at a location"); // Functionality for owner to update location
+        System.out.println("5. Edit Location");
+        System.out.println("6. Delete Location");
         System.out.println("-1. Logout");
         System.out.print("Enter your choice: ");
         
@@ -637,13 +634,11 @@ class ScreenManager {
                 System.out.println("You are now logging out-Successful");
                 break;
             case 1:
-                System.out.println("1. Search Libraries-Successful");
-                System.out.println("Enter your zipcode");
+            	System.out.println("Enter your zipcode");
                 int zipcode = scanner.nextInt();
                 int range = 5;
                 Library library = new Library();
                 List<Library> matchingLibraries = library.searchLibrariesByZipCodeRange(zipcode, range);
-
                 if (matchingLibraries.isEmpty()) {
                     System.out.println("No libraries found within the specified range.");
                 } else {
@@ -656,9 +651,10 @@ class ScreenManager {
                         System.out.println();
                     }
                 }
-                displayOwnerMenu();
+                displayBasicMenu();
                 break;
             case 2:
+            	
             	if(bookObj.bookSearch() == true) {
             		System.out.println("The book is currently available.");
                     displayOwnerMenu();
@@ -670,27 +666,20 @@ class ScreenManager {
                     break;
             	}
             case 3:
-                System.out.println("3. Make Request-Successful");
+                System.out.println("Here is a list of books:");
+                bookObj.listBooks();
                 displayOwnerMenu();
                 break;  
             case 4:
-                System.out.println("4. View Requests-Successful");
+                bookObj.bookAdd();
                 displayOwnerMenu();
-                break;  
+                break;
             case 5:
-				bookObj.bookAdd();
+                System.out.println("5. Edit Location-Successful");
                 displayOwnerMenu();
                 break;
             case 6:
-                System.out.println("6. Fulfill Request-Successful");
-                displayOwnerMenu();
-                break;
-            case 7:
-                System.out.println("7. Edit Location-Successful");
-                displayOwnerMenu();
-                break;
-            case 8:
-                System.out.println("8. Delete Location-Successful");
+                System.out.println("6. Delete Location-Successful");
                 displayOwnerMenu();
                 break;
             default:
@@ -702,16 +691,14 @@ class ScreenManager {
 
     }
 
-    private void displayBasicMenu() 
+  private void displayBasicMenu() 
     {
         // Implement menu options for basic users (Search, Request, View requests etc.)
         System.out.println("\nBasic Menu");
         System.out.println("1. Search Libraries");
-        System.out.println("2. List Books");
-        System.out.println("3. Make Request");
-        System.out.println("4. View Requests");
-        System.out.println("5. I'm at a location"); 
-        System.out.println("6. Fulfill Request");
+        System.out.println("2. Search For Book");
+        System.out.println("3. List Books");
+        System.out.println("4. I'm at a location"); 
         System.out.println("-1. Logout");
         System.out.print("Enter your choice: ");
         int choice;
@@ -719,17 +706,15 @@ class ScreenManager {
 		Book bookObj = new Book();
         switch(choice)
         {
-            case -1:
+ case -1:
                 System.out.println("You are now logging out-Successful");
                 break;
             case 1:
-                System.out.println("1. Search Libraries-Successful");
-                System.out.println("Enter your zipcode");
+            	System.out.println("Enter your zipcode");
                 int zipcode = scanner.nextInt();
                 int range = 5;
                 Library library = new Library();
                 List<Library> matchingLibraries = library.searchLibrariesByZipCodeRange(zipcode, range);
-
                 if (matchingLibraries.isEmpty()) {
                     System.out.println("No libraries found within the specified range.");
                 } else {
@@ -742,10 +727,10 @@ class ScreenManager {
                         System.out.println();
                     }
                 }
-
                 displayBasicMenu();
                 break;
             case 2:
+
             	if(bookObj.bookSearch() == true) {
             		System.out.println("The book is currently available.");
                     displayBasicMenu();
@@ -757,20 +742,12 @@ class ScreenManager {
                     break;
             	}
             case 3:
-                System.out.println("3. Make Request-Successful");
+                System.out.println("Here is a list of books:");
+                bookObj.listBooks();
                 displayBasicMenu();
                 break;  
             case 4:
-                System.out.println("4. View Requests");
-                displayBasicMenu();
-                break;  
-            case 5:
-                System.out.println("5. I'm at a location"); 
-				bookObj.bookAdd();
-                displayBasicMenu();
-                break;
-            case 6:
-                System.out.println("6. Fulfill Request");
+                bookObj.bookAdd();
                 displayBasicMenu();
                 break;
             default:
