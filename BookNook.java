@@ -276,6 +276,7 @@ class Book {
 				while (br.readLine() != null) {
 					ID++;
 				}
+				br.close();
 			}
 			catch (Exception e) {
 				e.printStackTrace();
