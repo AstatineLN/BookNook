@@ -3,3 +3,6 @@ Sally|sally@gmail.com|Iloveb00ks|false|
 SpotifyMeow|meowmeow@mreow.com|meowhungrymeowfood|false|
 LibraryOwner|iamalibraryowner@ireadbooks.com|Icanread|false|1|
 Ialsoreadbooks|read@read.com|ilovereading|false|2|
+library|library@library.gov|libraryy|true|3|
+Blaze|blaze@uta.edu|GoMavs|true|4|
+BLAZE|gomavs.blaze@uta.edu|GoMavs!!|true|5|

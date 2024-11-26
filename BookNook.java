@@ -1,6 +1,7 @@
 import java.util.Scanner;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -513,30 +514,33 @@ class ScreenManager {
     }
 
     private void handleCreateAccount() {
+        Scanner ScaNner = new Scanner(System.in);
         String filePath ="Users.txt";
         System.out.println("\nEnter username: ");
-        String userName = scanner.next();
+        String userName = ScaNner.next();
         System.out.println("Enter email: ");
-        String userEmail = scanner.next();
+        String userEmail = ScaNner.next();
         System.out.println("Enter password: ");
-        String userPassword = scanner.next();
+        String userPassword = ScaNner.next();
 
         System.out.println("Would you like to become an owner?");
         System.out.println("1. Yes");
         System.out.println("2. No");
 
-        int choice = scanner.nextInt();
+        int choice = ScaNner.nextInt();
         String libraryName = null;
-        String zipcode = null;
-        String description = null;
+        int libraryLocation;
+        String libraryDescription = null;
         if (choice == 1) {
             System.out.println("Enter Library Name: ");
-            libraryName = scanner.next();
-            System.out.println("Enter zipcode of location: ");
-            zipcode = scanner.next();
+            libraryName = ScaNner.next();
+            
+            System.out.println("ScaNner zipcode of location: ");
+            libraryLocation = scanner.nextInt();
+            ScaNner.nextLine();
             System.out.println("Enter description (location details): ");
             scanner.nextLine(); // Consume newline character
-            description = scanner.nextLine();
+            libraryDescription = ScaNner.nextLine();
             //get method from library class
 
             //account creation and add to users.txt
@@ -551,6 +555,20 @@ class ScreenManager {
             
             WriteToFile.writeToFile(filePath, newLibraryOwner.getUserArrayList());
 
+            //Add created library to Library.txt
+            //Access Arraylist
+            /*List<ArrayList<String>> tokenizedLines = ReadFromFile.tokenizeFile(filePath);
+            ArrayList<String> secondLine = tokenizedLines.get(1);
+            //Access element from arrayList
+            String thirdElement = secondLine.get(2);*/
+            //public Library(int libraryID, String libraryName, int libraryLocation, String libraryDescription) 
+            Library newLibraryData = new Library(nextLibraryID, libraryName,libraryLocation, libraryDescription);
+            newLibraryData.addLibraryToArrayList(String.valueOf(nextLibraryID));
+            newLibraryData.addLibraryToArrayList(libraryName);
+            newLibraryData.addLibraryToArrayList(String.valueOf(libraryLocation));
+            newLibraryData.addLibraryToArrayList(libraryDescription);
+            WriteToFile.writeToFile("Libraries.txt", newLibraryData.getLibraryArrayList());
+    
             
         }
         else if (choice ==2)
@@ -595,8 +613,7 @@ class ScreenManager {
     }
 
     private void displayOwnerMenu() 
-    {
-        int choice;
+       int choice;
         // Implement menu options for owners (Search, Request, Location management etc.)
         System.out.println("\nOwner Menu");
         System.out.println("1. Search Libraries");
@@ -674,7 +691,7 @@ class ScreenManager {
 
     }
 
-    private void displayBasicMenu() 
+  private void displayBasicMenu() 
     {
         // Implement menu options for basic users (Search, Request, View requests etc.)
         System.out.println("\nBasic Menu");
@@ -749,4 +766,3 @@ public class BookNook
         screenManager.start();
     }
 }
-
