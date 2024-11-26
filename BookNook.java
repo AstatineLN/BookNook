@@ -118,7 +118,7 @@ class Library
 
 
     //getters
-    public ArrayList<String> library() 
+    public ArrayList<String> getLibraryArrayList() 
     {
         return library;
     }
@@ -433,16 +433,16 @@ class ScreenManager {
 
         int choice = scanner.nextInt();
         String libraryName = null;
-        String zipcode = null;
-        String description = null;
+        int libraryLocation;
+        String libraryDescription = null;
         if (choice == 1) {
             System.out.println("Enter Library Name: ");
             libraryName = scanner.next();
             System.out.println("Enter zipcode of location: ");
-            zipcode = scanner.next();
+            libraryLocation = scanner.nextInt();
             System.out.println("Enter description (location details): ");
             scanner.nextLine(); // Consume newline character
-            description = scanner.nextLine();
+            libraryDescription = scanner.nextLine();
             //get method from library class
 
             //account creation and add to users.txt
