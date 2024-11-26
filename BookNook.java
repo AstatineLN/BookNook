@@ -535,7 +535,7 @@ class ScreenManager {
         System.out.print("Enter your choice: ");
         
         choice = scanner.nextInt();
-        
+        Book bookObj = new Book();
         
         switch(choice)
         {
@@ -547,7 +547,6 @@ class ScreenManager {
                 displayOwnerMenu();
                 break;
             case 2:
-            	Book bookObj = new Book();
             	if(bookObj.bookSearch() == true) {
             		System.out.println("The book is currently available.");
                     displayOwnerMenu();
@@ -567,7 +566,7 @@ class ScreenManager {
                 displayOwnerMenu();
                 break;  
             case 5:
-                System.out.println("5. I'm at a location-Successful"); 
+				bookObj.bookAdd();
                 displayOwnerMenu();
                 break;
             case 6:
@@ -605,7 +604,7 @@ class ScreenManager {
         System.out.print("Enter your choice: ");
         int choice;
         choice = scanner.nextInt();
-
+		Book bookObj = new Book();
         switch(choice)
         {
             case -1:
@@ -616,7 +615,6 @@ class ScreenManager {
                 displayBasicMenu();
                 break;
             case 2:
-            	Book bookObj = new Book();
             	if(bookObj.bookSearch() == true) {
             		System.out.println("The book is currently available.");
                     displayBasicMenu();
@@ -637,6 +635,7 @@ class ScreenManager {
                 break;  
             case 5:
                 System.out.println("5. I'm at a location"); 
+				bookObj.bookAdd();
                 displayBasicMenu();
                 break;
             case 6:
