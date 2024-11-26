@@ -207,6 +207,26 @@ class Book {
 		this.bookTitle = title;
 		this.bookAuthor = author;
 	}
+		public void listBooks() {
+		
+		BufferedReader br; 
+		try {
+			File file = new File("0.txt");
+			br = new BufferedReader(new FileReader(file));
+			String line;
+			//reading from the file line by line
+			while ((line = br.readLine()) != null) {
+				System.out.println(line);
+			}
+			br.close();
+		}
+		
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+
+
+	}
 
 	public void AddBookToArrayList(String item) {
 		bookArray.add(item);
